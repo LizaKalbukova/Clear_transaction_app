@@ -11,6 +11,7 @@ class ChartW extends StatelessWidget {
     // get динамічно будує
 
     return List.generate(7, (index) {
+      // List.generate(length, (index) => null). generate конструктор це утиліта класу List яка приймає значення
       // відлік іде так Сьогодні index = 0 , Вчора index = 1 і так до кінця тижня
       final weekDay = DateTime.now().subtract(Duration(
           days: index)); //subtract метод віднімає від поточної дати інндекс
@@ -32,7 +33,7 @@ class ChartW extends StatelessWidget {
         "Day": DateFormat.E().format(weekDay).substring(0, 1),
         "amount": totalSum,
       }; // повертаємо Map
-    }); // List.generate(length, (index) => null). generate конструктор це утиліта класу List яка приймає значення
+    }).reversed.toList(); // reversed задає список в обернутому порядку
   }
 
   double get totalWeekSpending {
@@ -47,16 +48,21 @@ class ChartW extends StatelessWidget {
     return Card(
       elevation: 5,
       margin: EdgeInsets.all(20),
-      child: Row(
-          children: allMyCharts.map((data) {
-        return ChartBar(
-          (data['amount'] as double),
-          totalWeekSpending == 0.0
-              ? 0.0
-              : (data['amount'] as double) / totalWeekSpending,
-          (data['Day'] as String),
-        );
-      }).toList()),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+            children: allMyCharts.map((data) {
+          return Expanded(
+            child: ChartBar(
+              (data['amount'] as double),
+              totalWeekSpending == 0.0
+                  ? 0.0
+                  : (data['amount'] as double) / totalWeekSpending,
+              (data['Day'] as String),
+            ),
+          );
+        }).toList()),
+      ),
     );
   }
 }

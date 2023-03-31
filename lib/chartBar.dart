@@ -10,7 +10,9 @@ class ChartBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text("\$${price.toStringAsFixed(0)}"),
+        Container(
+            height: 17,
+            child: FittedBox(child: Text("\$${price.toStringAsFixed(0)}"))),
         SizedBox(
           height: 4,
         ),
@@ -36,6 +38,7 @@ class ChartBar extends StatelessWidget {
                       width: 2,
                       color: Color.fromARGB(255, 53, 52, 52),
                     ),
+                    borderRadius: BorderRadius.circular(20),
                     color: Colors.blue),
               ),
             ) // Віджет встановлює відносну величину у відсотках 0- 0% , 1 - 100%
