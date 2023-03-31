@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'textInputWidget.dart';
 import 'transactionListW.dart';
 import 'properties.dart';
+import 'chart.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,18 +28,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
-  final List<MyTransactions> transctionW = [
-    MyTransactions(
-        amount: 32.99,
-        nameOfTransaction: "Banana",
-        id: "1m",
-        date: DateTime.now()),
-    MyTransactions(
-        amount: 12.99,
-        nameOfTransaction: "Cola",
-        id: "2m",
-        date: DateTime.now())
-  ];
+  final List<MyTransactions> transctionW = [];
 
   void addNewTransaction(String txNameOfTx, double txAmount) {
     final newTx = MyTransactions(
@@ -70,7 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Card(child: Text('Chart')),
+            ChartW(transctionW),
+
             //  MainColumnW(),
             TransactionListW(transctionW)
           ],
