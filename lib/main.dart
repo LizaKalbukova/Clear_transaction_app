@@ -64,15 +64,28 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget build(BuildContext context) {
+    final appBarW = AppBar(title: Text(" No Money"));
+
     return Scaffold(
-      appBar: AppBar(),
+      appBar: appBarW,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ChartW(transctionW),
-
-            //  MainColumnW(),
-            TransactionListW(transctionW, _deliteTransaction)
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBarW.preferredSize.height - // вичитаємо розмір  АppBar
+                      MediaQuery.of(context)
+                          .padding
+                          .top) * // вичитаємо розмір StatusBar
+                  0.3,
+              child: ChartW(transctionW),
+            ),
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBarW.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.7,
+                child: TransactionListW(transctionW, _deliteTransaction))
           ],
         ),
       ),
