@@ -4,12 +4,13 @@ import 'package:intl/intl.dart';
 
 class TransactionListW extends StatelessWidget {
   final List transctionNewW;
-  TransactionListW(this.transctionNewW);
+  final Function deleteTx;
+  TransactionListW(this.transctionNewW, this.deleteTx);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 530,
       child: transctionNewW
               .isEmpty // якщо transctionNewW.isEmpty то буде картинка,  а коли транзвкції додаються, то вона зникає
 
@@ -37,25 +38,28 @@ class TransactionListW extends StatelessWidget {
                 return Card(
                   elevation: 6,
                   child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.blue,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FittedBox(
-                          child: Text(
-                            "\$ ${transctionNewW[index].amount.toStringAsFixed(2)}",
-                            style: TextStyle(color: Colors.black),
+                      leading: CircleAvatar(
+                        radius: 30,
+                        backgroundColor: Colors.blue,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: FittedBox(
+                            child: Text(
+                              "\$ ${transctionNewW[index].amount.toStringAsFixed(2)}",
+                              style: TextStyle(color: Colors.black),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    title: Text(transctionNewW[index].nameOfTransaction),
-                    subtitle: Text(
-                      DateFormat('dd/MM/yyyy')
-                          .format(transctionNewW[index].date),
-                    ),
-                  ),
+                      title: Text(transctionNewW[index].nameOfTransaction),
+                      subtitle: Text(
+                        DateFormat('dd/MM/yyyy')
+                            .format(transctionNewW[index].date),
+                      ),
+                      trailing: IconButton(
+                        onPressed: () => deleteTx(transctionNewW[index].id),
+                        icon: Icon(Icons.delete),
+                      )),
                 );
               },
               itemCount: transctionNewW

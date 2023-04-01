@@ -55,6 +55,14 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  void _deliteTransaction(String id) {
+    setState(() {
+      transctionW.removeWhere((tx) {
+        return tx.id == id;
+      });
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
@@ -64,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ChartW(transctionW),
 
             //  MainColumnW(),
-            TransactionListW(transctionW)
+            TransactionListW(transctionW, _deliteTransaction)
           ],
         ),
       ),
