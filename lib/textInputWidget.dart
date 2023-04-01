@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'transactionListW.dart';
+import 'package:intl/intl.dart';
 
 class TextInputW extends StatefulWidget {
   final Function addNewTransaction;
@@ -11,24 +12,41 @@ class TextInputW extends StatefulWidget {
 
 class _TextInputWState extends State<TextInputW> {
   //String textInput = ''; // зміні які зберігають значення з рядку для ввода
-  final textController = TextEditingController();
 
+  final textController = TextEditingController();
   final amountController = TextEditingController();
+  DateTime? _selectedDate;
 
   void submitData() {
     // метод щоб наша кнопочка на клавіатурі підтвержувала і додавала транзакцію в лис .... ця функція створенна щоб код не повторювався
     final textSubmit = textController.text;
     final amountSubmit = double.parse(amountController.text);
 
-    if (textSubmit.isEmpty || amountSubmit <= 0) {
-      // якщо текста немає і ціна відємна, то Після Return функція  addNewTransaction не працює
+    if (textSubmit.isEmpty || amountSubmit <= 0 || _selectedDate == null) {
+      // якщо текста немає і ціна відємна і якщо не встановлена дата, то Після Return функція  addNewTransaction не працює
       return;
     }
 
-    widget.addNewTransaction(textSubmit,
-        amountSubmit); // автоматично створено  widget. післа перетворення класу на StatefulWidget  для того щоб ми змогли передавати наші properties з приватного класа
+    widget.addNewTransaction(textSubmit, amountSubmit,
+        _selectedDate); // автоматично створено  widget. післа перетворення класу на StatefulWidget  для того щоб ми змогли передавати наші properties з приватного класа
 
     Navigator.of(context).pop(); // Закриває нашу форму
+  }
+
+  void _presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2003),
+      lastDate: DateTime.now(),
+    ).then((pickerdate) {
+      if (pickerdate == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = pickerdate;
+      });
+    });
   }
 
   @override
@@ -49,7 +67,20 @@ class _TextInputWState extends State<TextInputW> {
               decoration: InputDecoration(labelText: 'The price'),
               controller: amountController,
             ),
-            TextButton(
+            Container(
+              height: 70,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(_selectedDate == null
+                      ? 'No Date Choosen'
+                      : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!).toString()}'),
+                  TextButton(
+                      onPressed: _presentDatePicker, child: Text("Choose Date"))
+                ],
+              ),
+            ),
+            ElevatedButton(
               onPressed: submitData,
               child: Text("Add transaction"),
             ),
