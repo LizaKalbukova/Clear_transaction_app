@@ -8,47 +8,51 @@ class ChartBar extends StatelessWidget {
   ChartBar(this.price, this.chartColor, this.title);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-            height: 17,
-            child: FittedBox(child: Text("\$${price.toStringAsFixed(0)}"))),
-        SizedBox(
-          height: 4,
-        ),
-        Container(
-          height: 50,
-          width: 10,
-          child: Stack(children: [
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Column(
+          children: [
             Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2,
-                  color: Color.fromARGB(255, 53, 52, 52),
-                ),
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(20),
-              ),
+                height: constraints.maxHeight * 0.15,
+                child: FittedBox(child: Text("\$${price.toStringAsFixed(0)}"))),
+            SizedBox(
+              height: constraints.maxHeight * 0.05,
             ),
-            FractionallySizedBox(
-              heightFactor: chartColor,
-              child: Container(
-                decoration: BoxDecoration(
+            Container(
+              height: constraints.maxHeight * 0.6,
+              width: 10,
+              child: Stack(children: [
+                Container(
+                  decoration: BoxDecoration(
                     border: Border.all(
                       width: 2,
                       color: Color.fromARGB(255, 53, 52, 52),
                     ),
+                    color: Colors.green,
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.blue),
-              ),
-            ) // Віджет встановлює відносну величину у відсотках 0- 0% , 1 - 100%
-          ]),
-        ),
-        SizedBox(
-          height: 4,
-        ),
-        Text(title),
-      ],
+                  ),
+                ),
+                FractionallySizedBox(
+                  heightFactor: chartColor,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 2,
+                          color: Color.fromARGB(255, 53, 52, 52),
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.blue),
+                  ),
+                ) // Віджет встановлює відносну величину у відсотках 0- 0% , 1 - 100%
+              ]),
+            ),
+            SizedBox(
+              height: constraints.maxHeight * 0.05,
+            ),
+            Container(height: constraints.maxHeight * 0.15, child: Text(title)),
+          ],
+        );
+      },
     );
   }
 }

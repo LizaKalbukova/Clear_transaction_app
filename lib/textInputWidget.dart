@@ -51,40 +51,49 @@ class _TextInputWState extends State<TextInputW> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              onSubmitted: (_) => submitData(),
-              decoration: InputDecoration(labelText: 'Name of transaction'),
-              controller: textController,
-            ),
-            TextField(
-              onSubmitted: (_) => submitData(),
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'The price'),
-              controller: amountController,
-            ),
-            Container(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(_selectedDate == null
-                      ? 'No Date Choosen'
-                      : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!).toString()}'),
-                  TextButton(
-                      onPressed: _presentDatePicker, child: Text("Choose Date"))
-                ],
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom + 30,
+              left: 10,
+              right: 10,
+              top: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                onSubmitted: (_) => submitData(),
+                decoration: InputDecoration(labelText: 'Name of transaction'),
+                controller: textController,
               ),
-            ),
-            ElevatedButton(
-              onPressed: submitData,
-              child: Text("Add transaction"),
-            ),
-          ],
+              TextField(
+                onSubmitted: (_) => submitData(),
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(labelText: 'The price'),
+                controller: amountController,
+              ),
+              Container(
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(_selectedDate == null
+                        ? 'No Date Choosen'
+                        : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!).toString()}'),
+                    TextButton(
+                        onPressed: _presentDatePicker,
+                        child: Text("Choose Date"))
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: submitData,
+                child: Text("Add transaction"),
+              ),
+            ],
+          ),
         ),
       ),
     );
